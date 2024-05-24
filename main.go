@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	server.Start()
-	client.Start()
+	go server.Start()
+	go client.Start()
 	ticker := time.NewTicker(time.Second)
 	for {
 		<-ticker.C

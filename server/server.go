@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ruraomsk/potop/modbus"
+	"github.com/ruraomsk/newmodbus/modbus"
 )
 
 var server *modbus.ModbusServer
@@ -47,13 +47,17 @@ func (h *handler) HandleInputRegisters(req *modbus.InputRegistersRequest) (res [
 func (h *handler) HandleReadExceptionStatus(req *modbus.ControlRequest) (res []uint8, err error) {
 	h.lock.Lock()
 	defer h.lock.Unlock()
-	err = modbus.ErrIllegalFunction
+	res = []byte{0x01, 0x2}
+	fmt.Printf("0x11 %v", res)
+	err = nil
 	return
 }
 func (h *handler) HandleReportServerID(req *modbus.ControlRequest) (res []uint8, err error) {
 	h.lock.Lock()
 	defer h.lock.Unlock()
-	err = modbus.ErrIllegalFunction
+	res = []byte{0x57}
+	fmt.Printf("0x07 %v", res)
+	err = nil
 	return
 }
 
@@ -62,8 +66,6 @@ func GetClients() map[string]time.Time {
 	defer eh.lock.Unlock()
 	return eh.mapClients
 }
-
-var work bool
 
 func Start() {
 	fmt.Println("Server start")
@@ -82,7 +84,6 @@ func Start() {
 		fmt.Printf("Не могу запустить сервер %v", err)
 		return
 	}
-	work = true
 	ticker := time.NewTicker(time.Second)
 	for {
 		<-ticker.C
