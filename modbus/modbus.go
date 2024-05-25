@@ -20,7 +20,7 @@ func (me Error) Error() (s string) {
 
 const (
 	// controls
-	fcReadExceptionStatus uint8 = 0x07
+	fcReadExceptionStatus uint8 = 0x08
 	fcReportServerID      uint8 = 0x11
 
 	// coils
